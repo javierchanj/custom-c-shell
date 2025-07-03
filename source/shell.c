@@ -77,28 +77,69 @@ int main(void) {
   int child_status;
   pid_t pid;
 
-  type_prompt();     // Display the prompt
-  read_command(cmd); // Read a command from the user
+  // Infinite for loop, calling type_prompt and read_command 
+  for(;;)
+  {
+    type_prompt();     // Display the prompt
+    read_command(cmd); // Read a command from the user
 
-  // If the command is "exit", break out of the loop to terminate the shell
-  if (strcmp(cmd[0], "exit") == 0)
-    // break;
-    return 0;
+    // If the command is empty skip execution 
+    if(cmd[0] == NULL){
+      continue; 
+    }
 
-  // Formulate the full path of the command to be executed
-  char full_path[PATH_MAX];
-  char cwd[1024];
-  if (getcwd(cwd, sizeof(cwd)) != NULL) {
+    // If the command is "exit", break out of the loop to terminate the shell
+    if (strcmp(cmd[0], "exit") == 0){
+      break;
+    }
+    
+    // Creating Child Process using Fork 
+    pid_t pid = fork(); 
 
-    snprintf(full_path, sizeof(full_path), "%s/bin/%s", cwd, cmd[0]);
-  } else {
-    printf("Failed to get current working directory.");
-    exit(1);
+      // If error
+      if (pid < 0){
+        continue; // We don't want to exit. 
+      }
+      
+      // In child process
+      else if (pid == 0){
+        // Formulate the full path of the command to be executed
+        char full_path[PATH_MAX];
+        char cwd[1024];
+        if (getcwd(cwd, sizeof(cwd)) != NULL) {
+          snprintf(full_path, sizeof(full_path), "%s/bin/%s", cwd, cmd[0]);
+        } 
+        else {
+          printf("Failed to get current working directory.\n");
+          exit(0);
+        }
+        execv(full_path, cmd);
+        printf("Command %s not found\n", cmd[0]);
+        exit(1); 
+      }
+      // In Parent process 
+      else{
+        int status, child_exit_status;
+
+        waitpid(pid, &status, WUNTRACED);
+        // if child terminates properly,
+        if (WIFEXITED(status)){
+            child_exit_status = WEXITSTATUS(status);
+        }
+        // checks child_exit_status and do something about it exit[0] is success exit[1] is failure
+        if (child_exit_status == 0){
+          printf("successful child exit\n");
+        }
+        else{
+          printf("unsuccessful child exit\n");
+        }
+      }
+
+    // Free the allocated memory for the command arguments before exiting
+    for (int i = 0; cmd[i] != NULL; i++)
+    {
+      free(cmd[i]);
+    }
+
   }
-
-  execv(full_path, cmd);
-
-  // If execv returns, command execution has failed
-  printf("Command %s not found\n", cmd[0]);
-  exit(0);
 }
