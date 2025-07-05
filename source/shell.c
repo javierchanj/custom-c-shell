@@ -3,6 +3,7 @@
 // rewrite it) Include the shell header file for necessary constants and
 // function declarations
 #include "shell.h"
+#define MAX_LINE_LENGTH 1024
 
 // Function to read a command from the user input
 void read_command(char **cmd) {
@@ -61,8 +62,6 @@ void type_prompt() {
     // Clear the screen on the first call
 #ifdef _WIN32
     system("cls"); // Windows command to clear screen
-#else
-    system("clear"); // UNIX/Linux command to clear screen
 #endif
     first_time = 0;
   }
@@ -73,9 +72,76 @@ void type_prompt() {
 // The main function where the shell's execution begins
 int main(void) {
   // Define an array to hold the command and its arguments
-  char *cmd[MAX_ARGS];
+  char *cmd[MAX_ARGS];  
   int child_status;
   pid_t pid;
+
+  const char *filePath = ".cseshellrc"; // Specify the path to your text file
+
+  // opening the .rc file using fopen 
+  FILE *file = fopen(".cseshellrc", "r"); //args are filename, "read"/"write"
+  if (file == NULL){
+    perror("Failed to open file");
+    return EXIT_FAILURE;
+  }
+
+  // While loop to incorporate path of .cseshellrc file begins here
+  char line[MAX_LINE_LENGTH];
+  while (fgets(line, sizeof(line), file))
+  {
+    line[strcspn(line, "\r\n")] = '\0';  // Remove the newline at end of line
+
+        // If line in .cseshell starts with varialbe PATH, rest of line interpret as PATH environemnt variable (so setenv)
+        // Set the PATH environment variable of your shell process to the specified value in .cseshellrc 
+
+        // First we need to check if it's PATH. 
+
+    if (strncmp (line, "PATH=", 5) == 0){ // Means is PATH 
+      // Since it's PATH, set the env variable of shell to .cseshellrc
+      setenv("PATH", line + 5, 1); // Replacing existing path 
+      continue; 
+    } 
+
+    char *rc_cmd[MAX_ARGS];
+    int i = 0;
+    char *token = strtok(line, " ");
+    while (token != NULL && i < MAX_ARGS - 1) {
+        rc_cmd[i++] = strdup(token);
+        token = strtok(NULL, " ");
+    }
+    rc_cmd[i] = NULL;
+
+    if (rc_cmd[0] == NULL) continue;
+                
+    printf("[.rc] running: %s\n", rc_cmd[0]);
+    fflush(stdout);            
+    pid_t pid = fork();
+
+    if (pid < 0){
+        // If fork() returns -1, an error occurred
+      perror("fork failed\n");
+      continue;
+    }
+
+    else if (pid == 0){
+      // Child process
+      execvp(rc_cmd[0], rc_cmd);
+      fprintf(stderr, "cseshell: command not found: %s\n", rc_cmd[0]);
+      _exit(1); 
+    }
+
+    else{
+      // Parent process
+      int status;
+      waitpid(pid, &status, 0); // Wait for child process to finish
+      }
+      for (int j = 0; rc_cmd[j] != NULL; j++) {
+      free(rc_cmd[j]);
+    }
+
+    } 
+
+  fclose(file); // Close the file
 
   // Infinite for loop, calling type_prompt and read_command 
   for(;;)
@@ -94,7 +160,8 @@ int main(void) {
     }
     
     // Creating Child Process using Fork 
-    pid_t pid = fork(); 
+  
+    pid = fork(); 
 
       // If error
       if (pid < 0){
@@ -103,20 +170,15 @@ int main(void) {
       
       // In child process
       else if (pid == 0){
-        // Formulate the full path of the command to be executed
-        char full_path[PATH_MAX];
-        char cwd[1024];
-        if (getcwd(cwd, sizeof(cwd)) != NULL) {
-          snprintf(full_path, sizeof(full_path), "%s/bin/%s", cwd, cmd[0]);
-        } 
-        else {
-          printf("Failed to get current working directory.\n");
-          exit(0);
-        }
-        execv(full_path, cmd);
-        printf("Command %s not found\n", cmd[0]);
-        exit(1); 
+        // Arguments array
+        // Execute command
+        execvp(cmd[0],cmd);
+
+        // If execvp returns, it must have failed
+        perror("execvp failed");
+        _exit(1);
       }
+
       // In Parent process 
       else{
         int status, child_exit_status;
@@ -142,4 +204,7 @@ int main(void) {
     }
 
   }
+
+
+  return EXIT_SUCCESS;
 }
