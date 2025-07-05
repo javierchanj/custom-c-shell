@@ -9,3 +9,13 @@
 #define MAX_LINE 1024
 #define MAX_ARGS 64
 #define BIN_PATH "./bin/"
+
+extern const char *builtin_commands[];
+
+int shell_cd(char **args);
+int shell_help(char **args);
+int shell_exit(char **args);
+int shell_usage(char **args);
+int list_env(char **args);
+int set_env_var(char **args);
+int unset_env_var(char **args); 
