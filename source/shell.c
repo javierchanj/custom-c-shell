@@ -221,10 +221,10 @@ int main(void) {
 // For each builtin functions to work
 // (1) cd functions
 int shell_cd(char **args) {
-  if (args[1] == NULL) { // check the second word 
-    chdir(getenv("HOME"));
+  if (args[1] == NULL) { // directory not provided
+    chdir(getenv("HOME")); 
   } else {
-    if (chdir(args[1]) != 0) {
+    if (chdir(args[1]) != 0) { // directory provided 
       perror("cd");
     }
   }
@@ -234,18 +234,20 @@ int shell_cd(char **args) {
 // (2) help function
 int shell_help(char **args) {
   printf("Available built-ins:\n");
-  for (int i = 0; i < num_builtin_functions(); i++) {
+  for (int i = 0; i < num_builtin_functions(); i++) { // loop through built-in commands
     printf("  %s\n", builtin_commands[i]);
   }
   return 0;
 }
 
+// (3) exit function
 int shell_exit(char **args) {
   exit(0);  // Shell terminates 
 }
 
+// (4) usage function
 int shell_usage(char **args) {
-  if (args[1] == NULL) {
+  if (args[1] == NULL) { // check for command 
     printf("Command not given. Type usage <command>.\n");
     return 1;
   }
@@ -264,12 +266,14 @@ int shell_usage(char **args) {
       printf("Type: setenv ENV=VALUE to set a new env variable\n");
   } else if (strcmp(args[1], "unsetenv") == 0) {
       printf("Type: unsetenv ENV to remove this env from the list of env variables\n");
-  } else {
+  } else { // not available
       printf("The command you gave: %s, is not part of CSEshell's builtin command\n", args[1]);
   }
   return 0;
 }
 
+
+// (5) env 
 extern char **environ;
 int list_env(char **args) {
   for (char **env = environ; *env != NULL; env++) {
@@ -278,20 +282,21 @@ int list_env(char **args) {
   return 0;
 }
 
+// (6) set env 
 int set_env_var(char **args) {
   if (args[1] == NULL) {
     fprintf(stderr, "setenv: missing KEY=VALUE\n");
     return 1;
   }
 
-  // Split args[1] by '='
+  // split args[1] with equal
   char *equal_sign = strchr(args[1], '=');
   if (equal_sign == NULL) {
     fprintf(stderr, "setenv: use format KEY=VALUE\n");
     return 1;
   }
 
-  *equal_sign = '\0';  // Temporarily split the string
+  *equal_sign = '\0';  // temporarily split the string
   char *key = args[1];
   char *value = equal_sign + 1;
 
@@ -302,6 +307,8 @@ int set_env_var(char **args) {
   return 0;
 }
 
+
+// (7) unset env
 int unset_env_var(char **args) {
   if (args[1] == NULL) {
     fprintf(stderr, "unsetenv: missing variable name\n");
