@@ -1,3 +1,29 @@
+# 📁 cseshell — PA1 for 50.005 Computer System Engineering
+
+## 🛠 How to Compile and Run
+Ensure you're using a **Linux** environment with `gcc` and `make` installed.  
+
+## 📥 Cloning the Repository
+
+To get started, clone the repository from GitHub:
+
+```bash
+git clone https://github.com/50005-computer-system-engineering/programming-assignment-1-cl02-grp16.git
+cd programming-assignment-1-cl02-grp16
+```
+
+To build the shell and all system programs, run:
+
+```bash
+make
+```
+
+Start the shell by running:
+```bash
+./cseshell
+```
+
+
  
 # Sustainability Considerations 
 Our shell and daemon programs are optimized for long-term maintainability, resource efficiency, and low-overhead operation:
