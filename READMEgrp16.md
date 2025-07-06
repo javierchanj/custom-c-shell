@@ -120,17 +120,12 @@ As part of SUTD’s and the Engineering Accreditation Board’s initiatives, thi
 #### 📜 3. Session History Feature
 - The `history` built-in command allows users to view previously typed commands, reducing repetitive typing and supporting users with memory or learning difficulties.
 
-#### 🌐 Future Suggestions:
-- Add **multilingual support** for help and usage messages.
-- Support **accessibility settings** like font size and speech integration.
-
 ---
 
-### ✅ Summary
+### Summary
 
-These features reflect a conscious effort to create a shell that is both resource-efficient and user-friendly for a wide range of users. The implementation balances functionality with simplicity, ensuring compatibility with diverse environments and needs.
+These features reflects how our shell is both resource-efficient and user-friendly for a wide range of users. The implementation balances functionality with simplicity, ensuring compatibility with diverse environments and needs.
 
-This section fulfills the requirement to consider both sustainability and inclusivity in PA1.
 
 
 
