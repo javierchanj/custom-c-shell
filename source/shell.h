@@ -19,3 +19,4 @@ int shell_usage(char **args);
 int list_env(char **args);
 int set_env_var(char **args);
 int unset_env_var(char **args); 
+int shell_history(char **args); 

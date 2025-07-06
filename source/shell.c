@@ -21,7 +21,8 @@ const char *builtin_commands[] = {
     "usage", // Provides a brief usage guide for the shell and its built-in command
     "env", // Lists all the environment variables currently set in the shell
     "setenv", // Sets or modifies an environment variable for this shell session
-    "unsetenv" // Removes an environment variable from the shell
+    "unsetenv", // Removes an environment variable from the shell
+    "history"
     };
 
 /*** This is array of functions, with argument char ***/
@@ -32,7 +33,8 @@ int (*builtin_command_func[])(char **) = {
     &shell_usage,  // builtin_command_func[3]: usage
     &list_env,     // builtin_command_func[4]: env
     &set_env_var,  // builtin_command_func[5]: setenv
-    &unset_env_var // builtin_command_func[6]: unsetenv
+    &unset_env_var, // builtin_command_func[6]: unsetenv
+    &shell_history
 };
 
 
@@ -209,16 +211,16 @@ int main(void) {
   fclose(file); // Close the file
 
   // Command for opening file 
-  FILE *hist = fopen(HISTORY_FILE, "r");
-  if (hist != NULL) {
-    char hist_line[MAX_LINE_LENGTH];
-    printf("Previous Commands (History):\n");
-    while (fgets(hist_line, sizeof(hist_line), hist)) {
-      printf("  %s", hist_line);  // Already has newline
-    }
-    fclose(hist);
-    printf("\n");
-  }
+  // FILE *hist = fopen(HISTORY_FILE, "r");
+  // if (hist != NULL) {
+  //   char hist_line[MAX_LINE_LENGTH];
+  //   printf("Previous Commands (History):\n");
+  //   while (fgets(hist_line, sizeof(hist_line), hist)) {
+  //     printf("  %s", hist_line);  // Already has newline
+  //   }
+  //   fclose(hist);
+  //   printf("\n");
+  // }
 
   // Infinite for loop, calling type_prompt and read_command 
   for(;;)
@@ -412,6 +414,45 @@ int unset_env_var(char **args) {
   }
   return 0;
 }
+
+
+// Shell history command
+int shell_history(char **args) {
+  FILE *file = fopen(HISTORY_FILE, "r");
+  if (file == NULL) {
+    printf("No history available.\n");
+      return 1;
+  }
+
+  char *lines[100];  // store up to 100 history entries
+  int count = 0;
+  char buffer[MAX_LINE_LENGTH];
+
+  while (fgets(buffer, sizeof(buffer), file)) {
+    // Trim leading whitespace
+    char *line = buffer;
+    while (*line == ' ' || *line == '\t') line++;
+
+    // Skip if line is empty or just newline
+    if (line[0] == '\n' || line[0] == '\0') continue;
+
+    lines[count++] = strdup(line);
+    if (count >= 100) break;
+  }
+  fclose(file);
+
+  // Show only last 5 entries
+  int start = count > 5 ? count - 5 : 0;
+  for (int i = start; i < count; i++) {
+    printf("%s", lines[i]);  // line already has \n
+    free(lines[i]);
+  }
+  return 0;
+}
+
+
+
+
 
 // Function to append commands to history
 void append_to_history(const char *raw_line) {
