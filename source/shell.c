@@ -135,6 +135,7 @@ int num_builtin_functions(void) {
 // The main function where the shell's execution begins
 int main(void) {
   // Define an array to hold the command and its arguments
+  getcwd(base_dir, sizeof(base_dir));
 
   char *cmd[MAX_ARGS];  
   int child_status;
