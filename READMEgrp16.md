@@ -46,4 +46,4 @@ Shell code is split into well-defined headers and source files to support contri
 
 Built-in functions are matched with array-dispatched handlers, encouraging clean and consistent naming for teams practicing C together.
 
-We view sustainability and inclusivity not just as design objectives—but as expressions of respect for systems, users, and future developers who will build on this codebase.
+
