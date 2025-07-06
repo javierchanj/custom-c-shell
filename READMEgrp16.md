@@ -63,7 +63,7 @@ The shell prompt is enhanced to display useful real-time information:
 ```bash
 🐚 >> /current/working/directory >> Day Mon DD HH:MM:SS YYYY >> username
 ↳
-
+```
 
  
 # Sustainability Considerations 
