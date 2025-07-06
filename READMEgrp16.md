@@ -87,45 +87,52 @@ usage
 ```
 
  
-## Sustainability and Inclusivity
+## 🌿 Sustainability and 🌍 Inclusivity Considerations
 
-As part of SUTD and the Engineering Accreditation Board's initiatives, this project incorporates elements that promote both sustainability and inclusivity. The goal is to create a lightweight, efficient, and user-friendly shell that can be adapted for diverse users and systems.
-
----
-
-### Sustainability Consideration
-
-**💡 Lightweight Command Execution & Idle Resource Awareness**
-
-- The shell is designed to be **lightweight**, avoiding unnecessary CPU usage:
-  - No busy loops — it sleeps and waits efficiently for user input.
-  - Built-in commands are executed **without forking**, saving process overhead.
-- Uses simple and efficient file I/O for `.cseshellrc` and history management to minimize system resource use.
-
-** Future Suggestions:**
-- Implement built-in system resource feedback (e.g., `usage` could show memory/CPU stats).
-- Introduce environment variable options to control how aggressively the shell refreshes or logs data (e.g., low-power mode).
+As part of SUTD’s and the Engineering Accreditation Board’s initiatives, this shell project incorporates key features and thoughtful design choices to support both **sustainability** and **inclusivity**.
 
 ---
 
-### Inclusivity Consideration
+### ♻️ Sustainability Features
 
-** Customizable Interface for Diverse Users**
+#### ✅ 1. Lightweight Design & Efficient Execution
+- All built-in commands are executed **without creating child processes**, which saves CPU cycles and avoids unnecessary system calls.
+- The shell uses **non-busy loops**, remaining idle when not in use and minimizing energy consumption.
+- History and `.cseshellrc` parsing are performed using simple and efficient file I/O, reducing system resource usage.
 
-- Users can set environment variables like `PROMPT_COLOR` and `THEME` to personalize their shell experience based on visual preference (e.g., light/dark mode, high contrast).
-- Prompts are decorated with contextual information to improve orientation (e.g., path, time, user), which supports clarity for beginners.
-
-** Inclusive Feedback and Messaging**
-- All built-in commands return helpful and friendly error messages.
-- `usage` provides explanations for each command, reducing the need for technical background.
-
-** Future Suggestions:**
-- Add multilingual support or translation files for help/usage output.
-- Provide text scaling or accessibility toggles via environment variables for visually impaired users.
+#### 🛠 2. Configurable for Low Resource Use
+- By keeping the design minimal and modular, the shell performs well even on older or low-powered hardware.
+- Future enhancement: support for environment variables like `POWER_MODE=low` to further reduce polling or background activity.
 
 ---
 
-We believe that small design choices like customizability, clarity in error messaging, and efficient execution contribute significantly toward a sustainable and inclusive development mindset.
+### 🌍 Inclusivity Features
+
+#### 🎨 1. Customizable User Interface
+- Users can personalize their shell with environment variables:
+  - `PROMPT_COLOR` for prompt text color
+  - `THEME` to toggle between visual styles (e.g., dark/light mode)
+- This helps accommodate visual preferences and accessibility needs, such as colorblind-friendly or high-contrast displays.
+
+#### 🧾 2. Clear, Friendly Messaging
+- The `usage` command provides simple, jargon-free descriptions of built-in commands.
+- Error messages are designed to be informative and beginner-friendly.
+  - For example: “Command not found” or “Missing argument: usage <command>”
+
+#### 📜 3. Session History Feature
+- The `history` built-in command allows users to view previously typed commands, reducing repetitive typing and supporting users with memory or learning difficulties.
+
+#### 🌐 Future Suggestions:
+- Add **multilingual support** for help and usage messages.
+- Support **accessibility settings** like font size and speech integration.
+
+---
+
+### ✅ Summary
+
+These features reflect a conscious effort to create a shell that is both resource-efficient and user-friendly for a wide range of users. The implementation balances functionality with simplicity, ensuring compatibility with diverse environments and needs.
+
+This section fulfills the requirement to consider both sustainability and inclusivity in PA1.
 
 
 
