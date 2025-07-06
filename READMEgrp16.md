@@ -87,51 +87,45 @@ usage
 ```
 
  
-# Sustainability Considerations 
-Our shell and daemon programs are optimized for long-term maintainability, resource efficiency, and low-overhead operation:
+## Sustainability and Inclusivity
 
-## 1. Modular Architecture
-Built-in commands and system programs are structured as isolated components (e.g., cd, usage, dspawn, dcheck) to allow easy future expansion without major rewrites.
+As part of SUTD and the Engineering Accreditation Board's initiatives, this project incorporates elements that promote both sustainability and inclusivity. The goal is to create a lightweight, efficient, and user-friendly shell that can be adapted for diverse users and systems.
 
-## 2.Low Resource Daemon Design
+---
 
-Daemon processes created via dspawn are terminated after a fixed cycle.
+### Sustainability Consideration
 
-File descriptors are properly closed and redirected to /dev/null, minimizing leakage and preserving system integrity.
+**💡 Lightweight Command Execution & Idle Resource Awareness**
 
-## 3. Garbage Collection Support
+- The shell is designed to be **lightweight**, avoiding unnecessary CPU usage:
+  - No busy loops — it sleeps and waits efficiently for user input.
+  - Built-in commands are executed **without forking**, saving process overhead.
+- Uses simple and efficient file I/O for `.cseshellrc` and history management to minimize system resource use.
 
-Shell uses proper memory cleanup (free()) between commands, preventing memory leaks in long-running sessions.
+** Future Suggestions:**
+- Implement built-in system resource feedback (e.g., `usage` could show memory/CPU stats).
+- Introduce environment variable options to control how aggressively the shell refreshes or logs data (e.g., low-power mode).
 
-## 4.Makefile Optimization
+---
 
-The build system compiles only necessary components and supports make clean for footprint reduction.
+### Inclusivity Consideration
 
- # Inclusivity Considerations
-Our implementation is built to support a diverse set of users and contributors, emphasizing accessibility, adaptability, and clarity
+** Customizable Interface for Diverse Users**
 
-## 1.Customizable Shell via .cseshellrc
+- Users can set environment variables like `PROMPT_COLOR` and `THEME` to personalize their shell experience based on visual preference (e.g., light/dark mode, high contrast).
+- Prompts are decorated with contextual information to improve orientation (e.g., path, time, user), which supports clarity for beginners.
 
-Supports user-defined environment setup and startup commands, enabling users to personalize the shell according to their workflows and hardware.
+** Inclusive Feedback and Messaging**
+- All built-in commands return helpful and friendly error messages.
+- `usage` provides explanations for each command, reducing the need for technical background.
 
-## 2.Internationalisation-Friendly Input Parsing
+** Future Suggestions:**
+- Add multilingual support or translation files for help/usage output.
+- Provide text scaling or accessibility toggles via environment variables for visually impaired users.
 
-Input tokenization tolerates spacing quirks and non-alphanumeric characters, making command use more forgiving across cultures and keyboard layouts.
+---
 
-## 3. Clear  Error Messaging
+We believe that small design choices like customizability, clarity in error messaging, and efficient execution contribute significantly toward a sustainable and inclusive development mindset.
 
-Errors such as "command not found" or failed directory changes (cd) are returned with clear, non-technical language.
-
-## 4. Accessible Documentation
-
-Source files include comment blocks explaining functionality for novice programmers.
-
-help and usage commands provide inline guidance without external documentation, increasing accessibility for first-time shell users.
-
-## 5. Functionality Collaboration Support
-
-Shell code is split into well-defined headers and source files to support contributions from multiple team members.
-
-Built-in functions are matched with array-dispatched handlers, encouraging clean and consistent naming for teams practicing C together.
 
 
