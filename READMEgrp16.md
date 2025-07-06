@@ -1,9 +1,9 @@
 # 📁 CSESHELL — PA1 for 50.005 Computer System Engineering
 
-## 🛠 How to Compile and Run
+## How to Compile and Run
 Ensure you're using a **Linux** environment with `gcc` and `make` installed.  
 
-## 📥 Cloning the Repository
+## Cloning the Repository
 
 To get started, clone the repository from GitHub:
 
@@ -23,7 +23,7 @@ Start the shell by running:
 ./cseshell
 ```
 
-## 📌 Built-in Functions Supported
+## Built-in Functions Supported
 
 The following 7 built-in commands are implemented in the shell. These commands are handled internally without forking a new process, using a table of function pointers to map each command to its corresponding handler.
 
@@ -39,7 +39,7 @@ The following 7 built-in commands are implemented in the shell. These commands a
 
 ---
 
-### 🔧 Implementation Highlights
+### Implementation Highlights
 
 - Built-in command names are stored in a `const char *builtin_commands[]` array.
 - Corresponding handler functions follow a consistent prototype: `int handler(char **args);`
@@ -50,13 +50,13 @@ The following 7 built-in commands are implemented in the shell. These commands a
       &list_env, &set_env_var, &unset_env_var
   };
 
-## ✨ Additional Features Supported
+## Additional Features Supported
 
 In addition to the required functionalities, our shell implementation includes the following extra features:
 
 ---
 
-### 🎨 1. Decorated Prompt
+### 1. Decorated Prompt
 
 The shell prompt is enhanced to display useful real-time information:
 
@@ -64,18 +64,18 @@ The shell prompt is enhanced to display useful real-time information:
 🐚 >> /current/working/directory >> Day Mon DD HH:MM:SS YYYY >> username
 ↳
 ```
-### 🧾 2. `History` Built-in Command (Custom Feature)
+###  2. `History` Built-in Command (Custom Feature)
 
 The `history` command is a custom built-in feature that displays the most recent commands entered by the user during the current and past shell sessions.
 
-#### ✅ Features:
+#### Features:
 - Stores each command entered into a file named `.cseshell_history` located in the shell’s working directory.
 - When `history` is typed, the shell:
   - Reads the history file
   - Displays the **last 5 non-empty commands**
 - File is **persistent across sessions**, so you can see your last used commands even after restarting the shell.
 
-#### 📝 Example:
+#### Example:
 
 ```bash
 🐚 >> history
