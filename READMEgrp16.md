@@ -1,5 +1,5 @@
  
-# Sustainability Considerations
+# Sustainability Considerations 
 Our shell and daemon programs are optimized for long-term maintainability, resource efficiency, and low-overhead operation:
 
 ## Modular Architecture
