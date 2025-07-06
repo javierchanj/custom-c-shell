@@ -34,13 +34,13 @@ Input tokenization tolerates spacing quirks and non-alphanumeric characters, mak
 
 Errors such as "command not found" or failed directory changes (cd) are returned with clear, non-technical language.
 
-## 4. Accessible Documentation:
+## 4. Accessible Documentation
 
 Source files include comment blocks explaining functionality for novice programmers.
 
 help and usage commands provide inline guidance without external documentation, increasing accessibility for first-time shell users.
 
-## 5. Functionality Collaboration Support:
+## 5. Functionality Collaboration Support
 
 Shell code is split into well-defined headers and source files to support contributions from multiple team members.
 
