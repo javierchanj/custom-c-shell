@@ -64,6 +64,27 @@ The shell prompt is enhanced to display useful real-time information:
 🐚 >> /current/working/directory >> Day Mon DD HH:MM:SS YYYY >> username
 ↳
 ```
+### 🧾 2. `History` Built-in Command (Custom Feature)
+
+The `history` command is a custom built-in feature that displays the most recent commands entered by the user during the current and past shell sessions.
+
+#### ✅ Features:
+- Stores each command entered into a file named `.cseshell_history` located in the shell’s working directory.
+- When `history` is typed, the shell:
+  - Reads the history file
+  - Displays the **last 5 non-empty commands**
+- File is **persistent across sessions**, so you can see your last used commands even after restarting the shell.
+
+#### 📝 Example:
+
+```bash
+🐚 >> history
+cd ..
+env
+setenv PROMPT_COLOR blue
+ls
+usage
+```
 
  
 # Sustainability Considerations 
