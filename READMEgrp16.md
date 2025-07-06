@@ -1,4 +1,4 @@
-# 📁 cseshell — PA1 for 50.005 Computer System Engineering
+# 📁 CSESHELL — PA1 for 50.005 Computer System Engineering
 
 ## 🛠 How to Compile and Run
 Ensure you're using a **Linux** environment with `gcc` and `make` installed.  
@@ -22,6 +22,22 @@ Start the shell by running:
 ```bash
 ./cseshell
 ```
+
+## 📌 Built-in Functions Supported
+
+The following built-in commands are implemented directly in the shell:
+
+| Command     | Description                                                                 |
+|-------------|-----------------------------------------------------------------------------|
+| `cd`        | Change the current working directory                                        |
+| `help`      | Display help information about available built-in commands                 |
+| `exit`      | Exit the shell                                                              |
+| `usage`     | Display system usage statistics (CPU time, memory usage, etc.)             |
+| `env`       | List all current environment variables                                      |
+| `setenv`    | Set or update an environment variable (e.g., `setenv VAR value`)           |
+| `unsetenv`  | Remove an environment variable from the environment                        |
+
+These commands are recognized and executed by the shell itself without invoking external programs.
 
 
  
