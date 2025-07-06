@@ -5,9 +5,12 @@
 #include "shell.h"
 
 #define MAX_LINE_LENGTH 1024
+#define HISTORY_FILE ".cseshell_history"
 #include <time.h>     // For time(), localtime(), strftime()
 #include <limits.h>   // For PATH_MAX
 char base_dir[PATH_MAX];
+void append_to_history(const char *raw_line);
+
 
 
 
@@ -37,6 +40,7 @@ int (*builtin_command_func[])(char **) = {
 void read_command(char **cmd) {
   // Define a character array to store the command line input
   char line[MAX_LINE];
+  char raw_line[MAX_LINE];  // to store the full input line
   // Initialize coufnt to keep track of the number of characters read
   int count = 0, i = 0;
   // Array to hold pointers to the parsed command arguments
@@ -60,6 +64,8 @@ void read_command(char **cmd) {
   }
   // Null-terminate the command line string
   line[count] = '\0';
+  strncpy(raw_line, line, MAX_LINE);  // Save a copy before strtok modifies it
+
 
 
   // If only the newline character was entered, return without processing
@@ -84,6 +90,8 @@ void read_command(char **cmd) {
   }
   // Null-terminate the cmd array to mark the end of arguments
   cmd[i] = NULL;
+  append_to_history(raw_line);  // Save command to .cseshell_history
+
 }
 
 // Function to display the shell prompt
@@ -198,6 +206,18 @@ int main(void) {
     } 
 
   fclose(file); // Close the file
+
+  // Command for opening file 
+  FILE *hist = fopen(HISTORY_FILE, "r");
+  if (hist != NULL) {
+    char hist_line[MAX_LINE_LENGTH];
+    printf("Previous Commands (History):\n");
+    while (fgets(hist_line, sizeof(hist_line), hist)) {
+      printf("  %s", hist_line);  // Already has newline
+    }
+    fclose(hist);
+    printf("\n");
+  }
 
   // Infinite for loop, calling type_prompt and read_command 
   for(;;)
@@ -390,5 +410,14 @@ int unset_env_var(char **args) {
     return 1;
   }
   return 0;
+}
+
+// Function to append commands to history
+void append_to_history(const char *raw_line) {
+    FILE *file = fopen(HISTORY_FILE, "a");
+    if (file != NULL) {
+        fprintf(file, "%s\n", raw_line);
+        fclose(file);
+    }
 }
 
