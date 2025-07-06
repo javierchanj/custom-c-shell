@@ -50,6 +50,21 @@ The following 7 built-in commands are implemented in the shell. These commands a
       &list_env, &set_env_var, &unset_env_var
   };
 
+## ✨ Additional Features Supported
+
+In addition to the required functionalities, our shell implementation includes the following extra features:
+
+---
+
+### 🎨 1. Decorated Prompt
+
+The shell prompt is enhanced to display useful real-time information:
+
+```bash
+🐚 >> /current/working/directory >> Day Mon DD HH:MM:SS YYYY >> username
+↳
+
+
  
 # Sustainability Considerations 
 Our shell and daemon programs are optimized for long-term maintainability, resource efficiency, and low-overhead operation:
