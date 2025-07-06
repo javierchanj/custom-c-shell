@@ -25,19 +25,31 @@ Start the shell by running:
 
 ## 📌 Built-in Functions Supported
 
-The following built-in commands are implemented directly in the shell:
+The following 7 built-in commands are implemented in the shell. These commands are handled internally without forking a new process, using a table of function pointers to map each command to its corresponding handler.
 
 | Command     | Description                                                                 |
 |-------------|-----------------------------------------------------------------------------|
-| `cd`        | Change the current working directory                                        |
-| `help`      | Display help information about available built-in commands                 |
-| `exit`      | Exit the shell                                                              |
-| `usage`     | Display system usage statistics (CPU time, memory usage, etc.)             |
-| `env`       | List all current environment variables                                      |
-| `setenv`    | Set or update an environment variable (e.g., `setenv VAR value`)           |
-| `unsetenv`  | Remove an environment variable from the environment                        |
+| `cd`        | Changes the current working directory. If no path is provided, it defaults to the home directory. After changing directories, all commands remain functional. |
+| `help`      | Lists all available built-in commands supported by the shell.               |
+| `exit`      | Exits the shell cleanly.                                                    |
+| `usage`     | Prints a brief usage description of each built-in command. Also prints a friendly message if the user inputs an unknown command. |
+| `env`       | Lists all environment variables currently available to the shell process, including inherited system variables and any set using `setenv`. |
+| `setenv`    | Sets or modifies an environment variable. Usage: `setenv KEY VALUE`. No output is printed if successful. |
+| `unsetenv`  | Removes the specified environment variable. Usage: `unsetenv KEY`. If the variable does not exist, it silently succeeds. |
 
-These commands are recognized and executed by the shell itself without invoking external programs.
+---
+
+### 🔧 Implementation Highlights
+
+- Built-in command names are stored in a `const char *builtin_commands[]` array.
+- Corresponding handler functions follow a consistent prototype: `int handler(char **args);`
+- An array of function pointers maps commands to their handlers for clean, dynamic dispatch:
+  ```c
+  int (*builtin_command_func[])(char **) = {
+      &shell_cd, &shell_help, &shell_exit, &shell_usage,
+      &list_env, &set_env_var, &unset_env_var
+  };
+
 
 
  
