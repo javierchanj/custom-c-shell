@@ -50,8 +50,6 @@ The following 7 built-in commands are implemented in the shell. These commands a
       &list_env, &set_env_var, &unset_env_var
   };
 
-
-
  
 # Sustainability Considerations 
 Our shell and daemon programs are optimized for long-term maintainability, resource efficiency, and low-overhead operation:
