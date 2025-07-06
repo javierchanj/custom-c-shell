@@ -22,25 +22,25 @@ The build system compiles only necessary components and supports make clean for 
  # Inclusivity Considerations
 Our implementation is built to support a diverse set of users and contributors, emphasizing accessibility, adaptability, and clarity:
 
-Customizable Shell via .cseshellrc:
+# Customizable Shell via .cseshellrc
 
 Supports user-defined environment setup and startup commands, enabling users to personalize the shell according to their workflows and hardware.
 
-Internationalization-Friendly Input Parsing:
+# Internationalisation-Friendly Input Parsing
 
 Input tokenization tolerates spacing quirks and non-alphanumeric characters, making command use more forgiving across cultures and keyboard layouts.
 
-Graceful Error Messaging:
+# Graceful Error Messaging
 
 Errors such as "command not found" or failed directory changes (cd) are returned with clear, non-technical language.
 
-Accessible Documentation:
+# Accessible Documentation:
 
 Source files include comment blocks explaining functionality for novice programmers.
 
 help and usage commands provide inline guidance without external documentation, increasing accessibility for first-time shell users.
 
-Team Collaboration Support:
+# Functionality Collaboration Support:
 
 Shell code is split into well-defined headers and source files to support contributions from multiple team members.
 
