@@ -108,11 +108,9 @@ As part of SUTD’s and the Engineering Accreditation Board’s initiatives, thi
 
 ### 🌍 Inclusivity Features
 
-#### 🎨 1. Customizable User Interface
-- Users can personalize their shell with environment variables:
-  - `PROMPT_COLOR` for prompt text color
-  - `THEME` to toggle between visual styles (e.g., dark/light mode)
-- This helps accommodate visual preferences and accessibility needs, such as colorblind-friendly or high-contrast displays.
+#### 🎨 1. Prompt Color Customization
+- Users can personalize their shell prompt using the `PROMPT_COLOR` environment variable.
+- This helps accommodate individual **visual preferences**, including support for **colorblind-friendly setups** (e.g., using distinct, readable colors).
 
 #### 🧾 2. Clear, Friendly Messaging
 - The `usage` command provides simple, jargon-free descriptions of built-in commands.
