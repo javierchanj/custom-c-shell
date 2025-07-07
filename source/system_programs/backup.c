@@ -41,9 +41,9 @@ int main() {
     // Run the command
     int result = system(cmd);
     if (result == 0) {
-        printf("✅ Backup successful: archive/%s\n", backupFile);
+        printf("Backup successful: archive/%s\n", backupFile);
     } else {
-        fprintf(stderr, "❌ Backup failed.\n");
+        fprintf(stderr, "Backup failed.\n");
     }
 
     return 0;

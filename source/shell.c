@@ -146,7 +146,7 @@ int main(void) {
   const char *filePath = ".cseshellrc"; // Specify the path to your text file
 
   // opening the .rc file using fopen 
-  FILE *file = fopen(".cseshellrc", "r"); //args are filename, "read"/"write"
+  FILE *file = fopen(".cseshellrc", "r"); //args are fopen(filename, "read"/"write")
   if (file == NULL){
     perror("Failed to open file");
     return EXIT_FAILURE;
@@ -156,7 +156,8 @@ int main(void) {
   char line[MAX_LINE_LENGTH];
   while (fgets(line, sizeof(line), file))
   {
-    line[strcspn(line, "\r\n")] = '\0';  // Remove the newline at end of line
+    // Remove the newline at end of line
+    line[strcspn(line, "\r\n")] = '\0';  
 
         // If line in .cseshell starts with varialbe PATH, rest of line interpret as PATH environemnt variable (so setenv)
         // Set the PATH environment variable of your shell process to the specified value in .cseshellrc 
@@ -169,6 +170,7 @@ int main(void) {
       continue; 
     } 
 
+    // Tokenize the current line from .cseshellrc into command and arguments, storing them in rc_cmd
     char *rc_cmd[MAX_ARGS];
     int i = 0;
     char *token = strtok(line, " ");
@@ -176,8 +178,9 @@ int main(void) {
         rc_cmd[i++] = strdup(token);
         token = strtok(NULL, " ");
     }
-    rc_cmd[i] = NULL;
+    rc_cmd[i] = NULL; // Mark end
 
+    // Skip this if no command found
     if (rc_cmd[0] == NULL) continue;
                 
     printf("[.rc] running: %s\n", rc_cmd[0]);
@@ -311,7 +314,11 @@ int main(void) {
   return EXIT_SUCCESS;
 }
 
-
+// ========================
+// Built-in Command Handlers
+// ========================
+// shell_cd - change current working directory
+// Usage: cd [directory]
 // For each builtin functions to work
 // (1) cd functions
 int shell_cd(char **args) {
@@ -325,7 +332,7 @@ int shell_cd(char **args) {
   return 1;
 }
 
-// (2) help function
+// (2) help function 
 int shell_help(char **args) {
   printf("Available built-ins:\n");
   for (int i = 0; i < num_builtin_functions(); i++) { // loop through built-in commands
@@ -339,7 +346,7 @@ int shell_exit(char **args) {
   exit(0);  // Shell terminates 
 }
 
-// (4) usage function
+// (4) usage function (hardcoded to give same output as shown on web)
 int shell_usage(char **args) {
   if (args[1] == NULL) { // check for command 
     printf("Command not given. Type usage <command>.\n");
@@ -367,7 +374,7 @@ int shell_usage(char **args) {
 }
 
 
-// (5) env 
+// (5) env (showing the whole list of env)
 extern char **environ;
 int list_env(char **args) {
   for (char **env = environ; *env != NULL; env++) {
@@ -376,7 +383,7 @@ int list_env(char **args) {
   return 0;
 }
 
-// (6) set env 
+// (6) set env (add)
 int set_env_var(char **args) {
   if (args[1] == NULL) {
     fprintf(stderr, "setenv: missing KEY=VALUE\n");
@@ -402,7 +409,7 @@ int set_env_var(char **args) {
 }
 
 
-// (7) unset env
+// (7) unset env (del)
 int unset_env_var(char **args) {
   if (args[1] == NULL) {
     fprintf(stderr, "unsetenv: missing variable name\n");
@@ -449,9 +456,6 @@ int shell_history(char **args) {
   }
   return 0;
 }
-
-
-
 
 
 // Function to append commands to history
