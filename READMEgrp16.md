@@ -2,6 +2,11 @@
 
 ## How to Compile and Run
 Ensure you're using a **Linux** environment with `gcc` and `make` installed.  
+Make sure the following dependencies are installed:
+
+gcc (GNU Compiler Collection)
+
+make (build automation tool)
 
 ## Cloning the Repository
 
