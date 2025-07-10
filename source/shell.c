@@ -13,7 +13,6 @@ void append_to_history(const char *raw_line);
 
 
 
-
 const char *builtin_commands[] = {
     "cd",    // Changes the current directory of the shell to the specified path. If no path is given, it defaults to the user's home directory.
     "help",  //  List all builtin commands in the shell
@@ -137,7 +136,7 @@ int num_builtin_functions(void) {
 // The main function where the shell's execution begins
 int main(void) {
   // Define an array to hold the command and its arguments
-  getcwd(base_dir, sizeof(base_dir));
+  getcwd(base_dir, sizeof(base_dir));  
 
   char *cmd[MAX_ARGS];  
   int child_status;
@@ -241,6 +240,8 @@ int main(void) {
     //   break;
     // }
 
+
+//compare cmd[0] against builtin_commands[], and call builtin_command_func[i](cmd) if found.
     int handled = 0;
     for (int command_index = 0; command_index < num_builtin_functions(); command_index++) {
       if (strcmp(cmd[0], builtin_commands[command_index]) == 0) {
